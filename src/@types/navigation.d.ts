@@ -4,6 +4,7 @@ export declare global {
       groups: undefined;
       new: undefined;
       players: {
+        // Evitar passar objetos complexos
         group: string;
       }
     }
