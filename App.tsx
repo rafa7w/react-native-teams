@@ -1,11 +1,12 @@
 // import { ActivityIndicator } from 'react-native'
 import { StatusBar } from 'react-native';
-import { Players } from '@screens/Players';
+import { Routes } from './src/routes';
 import { ThemeProvider } from 'styled-components';
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
 
 import { Loading } from '@components/Loading';
 import theme from './src/theme';
+
 
 export default function App() {
   // Fazemos o carregamento das fontes aqui para que esteja disponível em toda a aplicação
@@ -18,7 +19,7 @@ export default function App() {
         backgroundColor='transparent'
         translucent
       />
-      { fontsLoaded ? <Players /> : <Loading />} 
+      { fontsLoaded ? <Routes /> : <Loading />} 
     </ThemeProvider>
   );
 }
