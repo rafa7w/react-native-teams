@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
-import { FlatList, Alert } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { FlatList, Alert, TextInput } from 'react-native';
+/* No react native temos também o Keyboar que podemos usar para fazer o teclado desaparecer chamando Keyboard.dismiss() */
 import { useRoute } from '@react-navigation/native';
 
 import { AppError } from '@utils/AppError';
@@ -30,6 +31,8 @@ export function Players() {
   const route = useRoute()
   const { group } = route.params as RouteParams
 
+  const newPlayerNameInputRef = useRef<TextInput>(null)
+
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0) {
       return Alert.alert('Nova pessoa', 'Informe o nome da pessoa para adicionar.')
@@ -42,7 +45,12 @@ export function Players() {
     
     try {
       await playerAddByGroup(newPlayer, group)
+
+      newPlayerNameInputRef.current?.blur()
+      
+      setNewPlayerName('')
       fetchPlayersByTeam()
+
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert('Nova pessoa', error.message)
@@ -77,9 +85,13 @@ export function Players() {
       />
       <Form>
         <Input 
+          inputRef={newPlayerNameInputRef}
           onChangeText={setNewPlayerName}
+          value={newPlayerName}
           placeholder='Nome da pessoa'
           autoCorrect={false}
+          onSubmitEditing={handleAddPlayer} // para quando o usuário clicar no botão do Keyboard do celular de enviar executar a função passada
+          returnKeyType='done'
         />
         <ButtonIcon 
           icon='add'
